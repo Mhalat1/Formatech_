@@ -1,0 +1,68 @@
+/* ================ INSTITUTION FORM ================ */
+.institution-form {
+    border: none;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.institution-form .card-header {
+    background: var(--primary);
+    color: white;
+    padding: var(--space-lg);
+}
+
+.institution-form .card-body {
+    padding: var(--space-xl);
+}
+
+.institution-form .form-control-lg {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 1rem;
+    border: 2px solid var(--border-light);
+    transition: all 0.2s ease;
+}
+
+.institution-form .form-control-lg:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+.institution-form .form-label {
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.institution-form .btn {
+    padding: var(--space-sm) var(--space-lg);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-md);
+}
+
+.institution-form .btn-primary {
+    background: var(--primary);
+    border: none;
+}
+
+.institution-form .btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.institution-form .btn-outline-secondary {
+    border: 2px solid var(--border-medium);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .institution-form .card-body {
+        padding: var(--space-lg);
+    }
+    
+    .institution-form .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

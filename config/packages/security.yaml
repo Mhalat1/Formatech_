@@ -1,0 +1,53 @@
+security:
+
+
+
+
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+
+  providers:
+    database_provider:
+      entity:
+        class: App\Entity\Utilisateur
+        property: courriel # Utiliser 'courriel' ou 'username' comme identifiant de l'utilisateur
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+      # csrf_protection: true
+      custom_authenticator: App\Security\UsersAuthenticator
+      #permet de charger la sécurité de manière paresseuse. Cela signifie que la gestion de la sécurité (authentification, autorisation) n'est effectuée que lorsque cela est nécessaire, ce qui peut améliorer les performances.
+
+      logout:
+        path: app_logout
+        # where to redirect after logout
+        target: app_login
+
+
+      remember_me:
+        secret: "%kernel.secret%"
+        lifetime: 604800
+        path: /
+        # permet à l'utilisateur de rester connecté même après la fermeture du navigateur.
+
+  # Contrôle d'accès ['ROLE_USER', 'ROLE_ADMIN']
+  access_control:
+  
+    - { path: ^/webhooks/stripe, roles: PUBLIC_ACCESS }
+
+    - { path: ^/infoinstitution, roles: ROLE_USER } # Accès à la page 'institution' uniquement pour les utilisateurs authentifiés
+    - { path: ^/infosessionmodule, roles: ROLE_USER } # Accès à la page 'institution' uniquement pour les utilisateurs authentifiés
+    - { path: ^/calendrier, roles: ROLE_USER } # Accès à la page 'institution' uniquement pour les utilisateurs authentifiés
+
+    - { path: ^/utilisateur, roles: [ ROLE_USER_ENSEIGNANT, ROLE_USER_SUPERADMIN, ROLE_USER_ADMIN, ]} 
+    - { path: ^/module, roles: [ ROLE_USER_ENSEIGNANT, ROLE_USER_SUPERADMIN, ROLE_USER_ADMIN, ]} 
+    - { path: ^/session, roles: [ ROLE_USER_ENSEIGNANT, ROLE_USER_SUPERADMIN, ROLE_USER_ADMIN, ]} 
+    - { path: ^/institution, roles: [ ROLE_USER_SUPERADMIN, ROLE_USER_ADMIN, ]} 
+    - { path: ^/sessionmodule, roles: [ ROLE_USER_ENSEIGNANT, ROLE_USER_SUPERADMIN, ROLE_USER_ADMIN, ]}
+
+    - { path: ^/payment-required, roles: [ ROLE_ADMIN ]}
+

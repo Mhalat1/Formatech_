@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="{{ asset('css/connexion.css') }}">
+</head>
+<body>
+    {% block body %}
+    <div class="container">
+        <h1>Se connecter</h1>
+
+        {% if error %}
+            <div class="error-message">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="success-message">
+
+                <span class="user-text">
+                    Connecté en tant que <span class="user-identifier">{{ app.user.userIdentifier }}</span>
+                </span>
+                    <a href="{{ path('app_logout') }}" class="logout-link">Déconnexion</a>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            <div class="mb-4">
+                <label for="inputCourriel">Courriel</label>
+                <input type="text" value="{{ last_username }}" name="courriel" id="inputCourriel"
+                       autocomplete="username" required autofocus>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputPassword">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword"
+                       autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <p class="signup-link">
+            Pas encore inscrit(e) ? <a href="{{ path('app_register') }}">S'inscrire</a>
+        </p>
+    </div>
+    {% endblock %}
+</body>
+</html>

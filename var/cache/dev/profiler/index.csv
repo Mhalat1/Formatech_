@@ -1,0 +1,4 @@
+f1baef,127.0.0.1,GET,https://127.0.0.1:8000/,1751405750,,200,request
+6255ab,127.0.0.1,GET,https://127.0.0.1:8000/login,1751405754,,200,request
+fd95cb,127.0.0.1,POST,https://127.0.0.1:8000/login,1751405761,,302,request
+2f4978,127.0.0.1,GET,https://127.0.0.1:8000/infoinstitution,1751405763,,200,request

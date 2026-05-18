@@ -1,0 +1,194 @@
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+
+        .content-wrapper {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        #calendar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .session-details {
+            margin-top: 20px;
+        }
+
+        .detail-group {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-group:last-child {
+            border-bottom: none;
+        }
+
+        .detail-group h4 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .participant {
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        /* Custom FullCalendar styles */
+        .fc-event {
+            cursor: pointer;
+            font-size: 0.85em;
+            padding: 2px 4px;
+        }
+
+        .fc-event-title {
+            font-weight: 500;
+        }
+
+        .fc-daygrid-event-dot {
+            display: none;
+        }
+
+
+
+
+
+        /* calendar.css */
+/* Styles modaux */
+.session-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.session-modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.session-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.session-modal-close:hover {
+    color: #333;
+}
+
+.session-details {
+    margin-top: 20px;
+}
+
+.session-detail-group {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.session-detail-group:last-child {
+    border-bottom: none;
+}
+
+.session-detail-title {
+    color: #3498db;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.session-detail-title i {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+.session-participants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.session-participant {
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}

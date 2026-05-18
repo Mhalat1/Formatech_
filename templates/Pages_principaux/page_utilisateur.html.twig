@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilisateur et Utilisateurs</title>
+    <link rel="stylesheet" href="{{ asset('css/utilisateurinstitution.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body class="modern-theme">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+
+        <!-- Users List Collapsible Section -->
+        <section class="data-section-admin">
+
+            {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+                <h1 class="section-title-pricipale">
+                    Partie Administration
+                </h1>
+
+                
+    {# Bouton de sélection d'institution #}
+    <div class="institution-selector">
+        <label for="institution-select">Choisir une institution :</label>
+        <select id="institution-select" class="form-control">
+            <option value="">-- Toutes les institutions --</option>
+            {% for institution in institutions %}
+                <option value="{{ institution.id }}">{{ institution.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+            
+
+                <div class="table-container">
+                    <input type="checkbox" id="toggle-users-table" class="table-toggle">
+                    <label for="toggle-users-table" class="table-header">
+                        <h3 class="table-title">
+                            <i class="material-icons-round">people</i>
+                            Liste des Utilisateurs
+                            <span class="expand-icon">
+                                <i class="material-icons-round">expand_more</i>
+                            </span>
+                        </h3>
+                    </label>
+                    
+                    <div class="table-content">
+                        <div class="table-wrapper">
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+                                        <th>Contact</th>
+                                        <th>Naissance</th>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                                        <th>Rôle</th>
+                                        <th>Actions</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {% for utilisateur in utilisateurs_liste %}
+                                    <tr onclick="window.location.href='{{ path('utilisateur_liste', { 'id': utilisateur.id }) }}'" 
+                                        class="{{ utilisateur.id == app.user.id ? 'highlight' : '' }}">
+                                        <td>
+                                            <div class="user-badge">
+                                                <span class="user-initials">{{ utilisateur.prenom|first|upper }}{{ utilisateur.nom|first|upper }}</span>
+                                                {{ utilisateur.nom }}
+                                            </div>
+                                        </td>
+                                        <td>{{ utilisateur.prenom }}</td>
+                                        
+                                        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+                                        <td>
+                                            <div class="contact-info">
+                                                <div>{{ utilisateur.courriel }}</div>
+                                                <div class="phone">{{ utilisateur.telephone ? '0' ~ utilisateur.telephone : '' }}</div>
+                                            </div>
+                                        </td>
+                                        <td>{{ utilisateur.dateNaissance|date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        
+                                        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                                        <td>
+                                            <div class="role-tag {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''})|lower }}">
+                                                {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''}) }}
+                                            </div>
+                                        </td>
+                                        <td class="action-buttons">
+                                            <a href="{{ path('utilisateur_modifier_roles', { 'id': utilisateur.id }) }}" 
+                                            class="icon-btn edit" 
+                                            title="Modifier les rôles">
+                                                <i class="material-icons-round">manage_accounts</i>
+                                            </a>
+                                            <a href="{{ path('institution_index_ajouter', { 'delete_Utilisateur_id': utilisateur.id }) }}" 
+                                            class="icon-btn delete" 
+                                            title="Supprimer"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                                                <i class="material-icons-round">delete</i>
+                                            </a>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Current User Section -->
+        <section class="data-section">
+            <div class="table-container">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            {% if is_granted('ROLE_ENSEIGNANT') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
+                            <th>Contact</th>
+                            <th>Naissance</th>
+                            {% endif %}
+                            {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                            <th>Rôle</th>
+                            <th>Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for utilisateur in utilisateurs_liste %}
+                            {% if utilisateur.id == app.user.id %}
+                                <tr onclick="window.location.href='{{ path('utilisateur_liste', { 'id': utilisateur.id }) }}'" 
+                                    class="{{ utilisateur.id == app.user.id ? 'highlight' : '' }}">
+                                    <td>
+                                        <div class="user-badge">
+                                            <span class="user-initials">{{ utilisateur.prenom|first|upper }}{{ utilisateur.nom|first|upper }}</span>
+                                            {{ utilisateur.nom }}
+                                        </div>
+                                    </td>
+                                    <td>{{ utilisateur.prenom }}</td>
+                                    
+                                    {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+                                    <td>
+                                        <div class="contact-info">
+                                            <div>{{ utilisateur.courriel }}</div>
+                                            <div class="phone">{{ utilisateur.telephone ? '0' ~ utilisateur.telephone : '' }}</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ utilisateur.dateNaissance|date('d/m/Y') }}</td>
+                                    {% endif %}
+                                    
+                                    {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                                    <td>
+                                        <div class="role-tag {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''})|lower }}">
+                                            {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''}) }}
+                                        </div>
+                                    </td>
+                                    <td class="action-buttons">
+                                        <a href="{{ path('utilisateur_modifier_roles', { 'id': utilisateur.id }) }}" 
+                                        class="icon-btn edit" 
+                                        title="Modifier les rôles">
+                                            <i class="material-icons-round">manage_accounts</i>
+                                        </a>
+                                        <a href="{{ path('institution_index_ajouter', { 'delete_Utilisateur_id': utilisateur.id }) }}" 
+                                        class="icon-btn delete" 
+                                        title="Supprimer"
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                                            <i class="material-icons-round">delete</i>
+                                        </a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+
+
+
+
+        
+        
+    </main>
+    {% endblock %}
+</body>
+</html>

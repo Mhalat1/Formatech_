@@ -1,0 +1,167 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
+</head>
+
+<body class="bg-gray-100 font-sans flex items-center justify-center min-h-screen">
+    {% block body %}
+        <div class="container">
+            {{ form_start(registrationForm, {'attr': {'class': 'form-container'}}) }}
+
+            <div class="header">
+                <div class="header-nav">
+                    <a href="{{ path('app_home') }}" class="btn-home">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zM7 12l-4-4 4-4v3h5v2H7v3z"/>
+                        </svg>
+                        Retour à l'
+                    </a>
+                </div>
+                <div class="header-content">
+                    <h1>Créez votre compte</h1>
+                    <p>Démarrez avec notre solution de gestion</p>
+                </div>
+            </div>
+
+            <div class="form-container">
+                {% if invitation %}
+                <div class="invitation-notice bg-blue-100 border-l-4 border-blue-500 p-4 mb-6">
+                    <h3 class="font-bold text-blue-800">Invitation à rejoindre une institution</h3>
+                    <div class="institution-info mt-2">
+                        <p class="font-semibold">nom : {{ invitation.institution.nom }}</p>
+                        <p>adresse : {{ invitation.institution.adresse }}</p>
+                        <p>Téléphone: {{ invitation.institution.telephone }}</p>
+                        <p>Email: {{ invitation.institution.courriel }}</p>
+                    </div>
+                    <input type="hidden" name="invitation_token" value="{{ invitation.token }}">
+                </div>
+                {% endif %}
+
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-number">1</div>
+                        <h2 class="section-title">Informations de l'institution</h2>
+                    </div>
+                    
+                    {% if not invitation %}
+                    <div class="form-group">
+                        {{ form_label(registrationForm.institutionNom) }}
+                        {{ form_widget(registrationForm.institutionNom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.institutionNom) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.institutionAdresse) }}
+                        {{ form_widget(registrationForm.institutionAdresse, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.institutionAdresse) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.institutionTelephone) }}
+                        {{ form_widget(registrationForm.institutionTelephone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.institutionTelephone) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.institutionCourriel) }}
+                        {{ form_widget(registrationForm.institutionCourriel, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.institutionCourriel) }}
+                    </div>
+                    {% else %}
+                    <div class="bg-gray-50 p-4 rounded">
+                        <p class="text-gray-600">Les informations de l'institution sont pré-remplies selon votre invitation.</p>
+                        <div class="mt-2 grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nom de l'institution</label>
+                                <div class="mt-1 p-2 bg-gray-100 rounded">{{ invitation.institution.nom }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Adresse</label>
+                                <div class="mt-1 p-2 bg-gray-100 rounded">{{ invitation.institution.adresse }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+                                <div class="mt-1 p-2 bg-gray-100 rounded">{{ invitation.institution.telephone }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email</label>
+                                <div class="mt-1 p-2 bg-gray-100 rounded">{{ invitation.institution.courriel }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-number">2</div>
+                        <h2 class="section-title">Informations personnelles</h2>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.prenom) }}
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.prenom) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.nom) }}
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.nom) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.courriel) }}
+                        {{ form_widget(registrationForm.courriel, {
+                            'attr': {
+                                'class': 'form-control',
+                                'value': invitation ? invitation.email : ''
+                            }
+                        }) }}
+                        {{ form_errors(registrationForm.courriel) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.telephone) }}
+                        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.telephone) }}
+                    </div>
+                    
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.dateNaissance) }}
+                        {{ form_widget(registrationForm.dateNaissance, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.dateNaissance) }}
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        {{ form_label(registrationForm.plainPassword) }}
+                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                    <div class="agree-terms">
+                        {{ form_label(registrationForm.agreeTerms) }}
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                    <div class="submit-area">
+                        {{ form_widget(registrationForm.save) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Rendre individuellement les champs cachés pour éviter qu'ils apparaissent en bas #}
+            {% if invitation %}
+                {# Masquer les champs institution pour les invitations #}
+                {{ form_widget(registrationForm.institutionNom, {'attr': {'style': 'display: none;'}}) }}
+                {{ form_widget(registrationForm.institutionAdresse, {'attr': {'style': 'display: none;'}}) }}
+                {{ form_widget(registrationForm.institutionTelephone, {'attr': {'style': 'display: none;'}}) }}
+                {{ form_widget(registrationForm.institutionCourriel, {'attr': {'style': 'display: none;'}}) }}
+            {% endif %}
+            
+
+            {# Masquer les autres champs restants #}
+            {{ form_rest(registrationForm, {'render': false}) }}
+
+            {{ form_end(registrationForm) }}
+        </div>
+    {% endblock %}
+</body>
+</html>

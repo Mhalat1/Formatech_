@@ -1,0 +1,10 @@
+1/ mettre toutes les tables en index 
+cliquer sur la table 
+puis sur l'onglet structure et cocher une par une les lignes puis cliquer sur le bouton "indexer" et gestion
+necessaire pour créer les liaisons entre tableaux dans la bdd
+
+2/ créer les laisons entre les tables en suivant le modele dans l'onglet structuree puis  Relation view
+créer les relations ex: sessions_institution avec session.id et institution.id  
+
+choisir modemle cascade pour que les tables liées de la bdd se mettent à jour automatiquement en fonction 
+des modifications dans une table 

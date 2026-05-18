@@ -1,0 +1,68 @@
+<!-- Dans votre template payment/required.html.twig -->
+
+<!-- Boutons de paiement -->
+<div class="subscription-options">
+    <div class="plan">
+        <h3>Plan Basique</h3>
+        <p>9.90€/mois</p>
+        <button id="checkout-basique" class="btn btn-primary">
+            S'abonner - Basique
+        </button>
+    </div>
+    
+    <div class="plan">
+        <h3>Plan Premium</h3>
+        <p>19.90€/mois</p>
+        <button id="checkout-premium" class="btn btn-primary">
+            S'abonner - Premium
+        </button>
+    </div>
+</div>
+
+<!-- Script Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+const stripe = Stripe('{{ stripe_public_key }}');
+
+// Fonction pour créer une session de checkout
+async function createCheckoutSession(subscriptionType) {
+    try {
+        const response = await fetch('{{ path('create_checkout_session') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                subscription_type: subscriptionType
+            })
+        });
+
+        const session = await response.json();
+        
+        if (session.error) {
+            alert('Erreur: ' + session.error);
+            return;
+        }
+
+        // Rediriger vers Stripe Checkout
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+
+        if (result.error) {
+            alert('Erreur: ' + result.error.message);
+        }
+    } catch (error) {
+        alert('Erreur: ' + error.message);
+    }
+}
+
+// Event listeners pour les boutons
+document.getElementById('checkout-basique').addEventListener('click', () => {
+    createCheckoutSession('basique');
+});
+
+document.getElementById('checkout-premium').addEventListener('click', () => {
+    createCheckoutSession('premium');
+});
+</script>

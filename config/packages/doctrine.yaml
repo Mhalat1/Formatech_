@@ -1,0 +1,54 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver: 'pdo_pgsql'  # Changé de pdo_mysql à pdo_pgsql
+                server_version: '15'  # Version de PostgreSQL sur Render
+                charset: 'UTF8'       # UTF8 au lieu de utf8mb4
+                
+                # Options spécifiques PostgreSQL
+                mapping_types:
+                    enum: string
+                default_table_options:
+                    # Options différentes pour PostgreSQL
+                    # Note: PostgreSQL n'utilise pas les mêmes options que MySQL
+                
+                # Configuration SSL pour Render
+                options:
+                    # Pour forcer SSL
+                    1002: 'SET NAMES UTF8'
+                    # Option pour certaines versions
+                    PGSQL_ATTR_SSL_MODE: 'require'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool

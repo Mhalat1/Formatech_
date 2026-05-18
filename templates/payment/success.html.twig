@@ -1,0 +1,161 @@
+{% block body %}
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-spinner"></div>
+        <h1 class="payment-title">Paiement réussi !</h1>
+        <p class="payment-message">Votre paiement a été traité avec succès. Nous vous remercions pour votre confiance.</p>
+
+        <div class="transaction-details">
+            <p class="transaction-title">Détails de la transaction :</p>
+
+                <p><strong>payment_intent:</strong> {{ payment_intent }}</p>
+                <p><strong>subscription_type:</strong> {{ subscription_type }}</p>
+                <p><strong>stripe_public_key:</strong> {{ stripe_public_key }}</p>
+                <p><strong>username:</strong> {{ username }}</p>
+
+
+
+            <div class="transaction-info">
+
+
+
+                {% if subscription_type == 'basique' %}
+                    <p>vous avez souscrit à l'offre basique</p>
+                {% elseif subscription_type == 'premium' %}
+                    <p>vous avez souscrit à l'offre premium</p>
+                {% else %}
+                    <p>err offre inconnue</p>
+                {% endif %}
+
+
+                <p><strong>Date:</strong> {{ "now"|date("d/m/Y H:i") }}</p>
+            </div>
+        </div>
+
+        
+
+        <div class="return-button-container">
+            <a href="{{ path('app_home') }}" class="return-button">
+                Retour à l'accueil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+<style>
+
+
+.transaction-info p {
+    color: red !important;
+    font-size: 16px !important;
+    background: yellow !important;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for centering */
+.payment-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #4C6FF2, #1D4ED8);
+}
+
+/* Main card style */
+.payment-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Spinner animation */
+.payment-spinner {
+    width: 64px;
+    height: 64px;
+    border-top: 4px solid #4CAF50;
+    border-bottom: 4px solid #4CAF50;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    margin: 0 auto 20px auto;
+}
+
+/* Title and message */
+.payment-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.payment-message {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Transaction details card */
+.transaction-details {
+    background-color: #D1FAE5;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.transaction-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.transaction-info p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Button container */
+.return-button-container {
+    margin-top: 30px;
+}
+
+/* Button style */
+.return-button {
+    display: inline-block;
+    background-color: #1D4ED8;
+    color: #fff;
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.return-button:hover {
+    background-color: #2563EB;
+    transform: scale(1.05);
+}
+
+/* Animation for spinner */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+</style>

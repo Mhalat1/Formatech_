@@ -1,0 +1,268 @@
+/* Thème moderne et variables */
+.modern-theme {
+    --primary-color: #314bbb;
+    --secondary-color: #3a0ca3;
+    --accent-color: #314bbb;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --success-color: #4cc9f0;
+    --warning-color: #f8961e;
+    --danger-color: #ef233c;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+
+h1{
+    color: white;
+    margin: 1rem;
+}
+
+/* Structure de base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+
+/* Sections principales */
+.data-section {
+    margin: 2rem auto;
+    max-width: 80%;
+    padding: 1rem;
+}
+.data-section-admin {
+    padding: 40px;
+    background-color: #334155;
+}
+
+
+
+.table-container {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+/* En-tête de tableau repliable */
+.table-toggle {
+    display: none;
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
+
+.table-title {
+    margin: 0;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+
+.table-toggle:checked ~ .table-header .expand-icon {
+    transform: rotate(180deg);
+}
+
+.table-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.table-toggle:checked ~ .table-content {
+    max-height: 2000px; /* Valeur suffisamment grande */
+}
+
+/* Styles de tableau */
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.modern-table th {
+    background-color: #f1f3f5;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.modern-table td {
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.modern-table tbody tr {
+    transition: var(--transition);
+}
+
+.modern-table tbody tr:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Badge utilisateur */
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+/* Informations de contact */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.phone {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Étiquettes de rôle */
+.role-tag {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.role-tag.superadmin {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.role-tag.admin {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.role-tag.enseignant {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.role-tag.etudiant {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Boutons d'action */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: var(--transition);
+    color: white;
+    text-decoration: none;
+}
+
+.icon-btn.edit {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+
+.icon-btn.delete {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+
+.icon-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Version simple et moderne */
+.institution-selector {
+    margin: 1.5rem 0;
+    max-width: 100%;
+}
+
+.institution-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+    font-size: 1rem;
+}
+
+.institution-selector select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    transition: border 0.2s ease;
+}
+
+.institution-selector select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modern-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .table-header {
+        padding: 0.75rem;
+    }
+    
+    .modern-table th, 
+    .modern-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier {{ utilisateur.prenom }} {{ utilisateur.nom }} | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="container py-5">
+            <div class="card institution-form">
+                <div class="card-header">
+                    <h1 class="h2 mb-0">
+                        <i class="material-icons-round me-2">person</i>
+                        Modifier {{ utilisateur.prenom }} {{ utilisateur.nom }}
+                    </h1>
+                </div>
+                
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                {{ form_label(form.roles, null, {
+                                    'label_attr': {'class': 'form-label fw-bold mb-2'}
+                                }) }}
+                                <div class="roles-container bg-light p-3 rounded-2" style="border: 1px solid var(--border-light)">
+                                    {% for role in form.roles %}
+                                        <div class="form-check mb-2">
+                                            {{ form_widget(role, {
+                                                'attr': {'class': 'form-check-input'}
+                                            }) }}
+                                            {{ form_label(role, null, {
+                                                'label_attr': {'class': 'form-check-label'}
+                                            }) }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {{ form_errors(form.roles) }}
+                            </div>
+                        </div>
+                            
+                            <div class="col-md-6">
+                                {{ form_row(form.courriel, {
+                                    'attr': {'class': 'form-control-lg'},
+                                    'label_attr': {'class': 'form-label fw-bold'}
+                                }) }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                {{ form_row(form.telephone, {
+                                    'attr': {'class': 'form-control-lg'},
+                                    'label_attr': {'class': 'form-label fw-bold'}
+                                }) }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                {{ form_row(form.dateNaissance, {
+                                    'attr': {'class': 'form-control-lg'},
+                                    'label_attr': {'class': 'form-label fw-bold'}
+                                }) }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-end mt-4 gap-3">
+                            <a href="{{ path('app_Session_Module') }}" class="btn btn-outline-secondary">
+                                <i class="material-icons-round me-1">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="material-icons-round me-1">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

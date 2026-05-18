@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Gestion des Associations | FormaTech</title>
+		<link rel="stylesheet" href="{{ asset('css/utilisateurinformations.css') }}">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+		<link
+		href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+		 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+	</head>
+
+	<body class="modern-layout">
+
+
+		{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+
+            <section class="form_creations">
+            	{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+
+                    <h1 class="section-title-pricipale">
+                        Partie Administration
+                    </h1>
+                {% endif %}
+            </section>
+
+
+            <div class="form_creations">
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+
+                    <div class="container">
+                        <div class="header">
+                            <h1>
+                                <i class="fas fa-file-pdf"></i>
+                                Gestionnaire Notes & Commentaires
+                            </h1>
+                        </div>
+
+                        {% set userId = app.request.get('id') %}
+                        <section class="data-section">
+
+                            {% if is_granted('ROLE_ENSEIGNANT') or is_granted('ROLE_ADMIN') %}
+                                <div class="section-header">
+                                    <h3 class="subsection-title">
+                                        <i class="material-icons-round">settings</i>
+                                        Modifier commentaire générale de l'utilisateur</h3>
+                                </div>
+                                <div class="action-buttons">
+                                    <a href="{{ path('utilisateur_modifier', { 'id': utilisateur.id }) }}" class="action-btn primary">
+                                        <i class="material-icons-round">manage_accounts</i>
+                                        Modifier le Commentaire générale
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="material-icons-round">link</i>
+                                    Détails des notes
+                                </h2>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Institution</th>
+                                            <th>Session</th>
+                                            <th>Module</th>
+                                            <th>Commentaire</th>
+                                            <th>Note</th>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <th class="text-right">Actions</th>
+                                            {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set hasUserModules = false %}
+                                        {% for item in utilisateurInstitutionSessionModules %}
+                                            {% if item.Utilisateur.id == userId %}
+                                                {% set hasUserModules = true %}
+                                                <tr>
+                                                    <td>{{ item.SessionModule.Institution.nom }}</td>
+                                                    <td>{{ item.SessionModule.Session.nom }}</td>
+                                                    <td>{{ item.SessionModule.Module.nom }}</td>
+                                                    <td class="comment-cell">
+                                                        {% if item.CommentaireModule %}
+                                                            {{ item.CommentaireModule }}
+                                                        {% else %}
+                                                            <span class="no-comment">Aucun commentaire</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="note-cell">
+                                                        {% if item.NoteModule is not null %}
+                                                            {{ item.NoteModule }}/20
+                                                        {% else %}
+                                                            <span class="no-note">Non noté</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                        <td class="actions">
+                                                            <a href="{{ path('module_commentaire', { 'id': item.id }) }}" class="icon-btn edit" title="Modifier">
+                                                                <i class="material-icons-round">edit</i>
+                                                            </a>
+                                                            <form method="POST" action="{{ path('app_Session_Module') }}" class="inline-form">
+                                                                <input type="hidden" name="deleteUtilisateurId" value="{{ item.id }}">
+                                                                <button type="submit" class="icon-btn delete" title="Supprimer">
+                                                                    <i class="material-icons-round">delete</i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if not hasUserModules %}
+                                            <tr>
+                                                <td colspan="{% if is_granted('ROLE_ADMIN') %}6{% else %}5{% endif %}" class="no-data">
+                                                    <i class="material-icons-round">info</i>
+                                                    Vous n'êtes associé à aucun module actuellement
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    </br>
+
+                    <div class="container">
+
+                    
+                        <div class="header">
+                            <h1>
+                                <i class="fas fa-file-pdf"></i>
+                                Gestionnaire PDF & MAILER
+                            </h1>
+                        </div>
+
+
+
+
+
+                        <div class="body">
+
+                            <div class="form-section individual-section">
+                                <div class="section-title">
+                                    <i class="fas fa-user"></i>
+                                    Actions pour un utilisateur spécifique
+                                </div>
+                                <form action="{{ path('app_export_pdf', {'id': utilisateur.id}) }}" method="post" onsubmit="return confirm('Envoyer le PDF à l\\'utilisateur ?')">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('app_export_pdf') }}">
+                                    
+                                    <button type="submit" name="action" value="download" class="btn btn-primary">
+                                        <i class="fas fa-download"></i>
+                                        Télécharger le PDF
+                                    </button>
+                                    
+                                    <button type="submit" name="action" value="email" class="btn btn-success">
+                                        <i class="fas fa-envelope"></i>
+                                        Envoyer le PDF par Email
+                                    </button>
+                                </form>
+                            </div>
+
+                            {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+
+                                <!-- Section envoi groupé -->
+                                <div class="form-section bulk-section">
+                                    <div class="section-title">
+                                        <i class="fas fa-users"></i>
+                                        Envoi groupé à tous les utilisateurs
+                                    </div>
+                                    <form action="{{ path('send_all_pdfs', {'id': utilisateur.id})  }}" method="post" onsubmit="return confirm('Envoyer les PDFs à tous les utilisateurs ?')">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('send_all_pdfs') }}">
+
+
+                                        <button type="submit" name="action" value="download" class="btn btn-primary">
+                                            <i class="fas fa-download"></i>
+                                            Télécharger tout les PDF
+                                        </button>
+
+                                        <button type="submit" class="btn btn-warning btn-lg mb-3" name="action" value="email" >
+                                            <i class="fas fa-envelope"></i>
+                                            Envoyer tout les PDF par Email
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+
+
+                            <!-- Section par session -->
+                            <div class="form-section session-section">
+                                <div class="section-title">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Envoi par session
+                                </div>
+                                <form action="{{ path('send_session_pdfs', {'id': utilisateur.id})  }}" method="post" onsubmit="return confirm('Envoyer les PDFs à tous les utilisateurs de la session sélectionnée ?')">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('send_session_pdfs') }}">
+
+                                    <div class="form-group">
+                                        <label for="session">Choisir une session :</label>
+                                        <select class="form-control" id="session" name="session_id" required>
+                                            <option value="">-- Sélectionnez une session --</option>
+                                            {% if session_liee is defined and session_liee is not empty %}
+                                                {% for session in session_liee %}
+                                                    <option value="{{ session.id }}">
+                                                        {{ session.nom }}
+                                                        {% if session.dateDebut and session.dateFin %}
+                                                            ({{ session.dateDebut|date('d/m/Y') }}
+                                                            -
+                                                            {{ session.dateFin|date('d/m/Y') }})
+                                                        {% endif %}
+                                                    </option>
+                                                {% endfor %}
+                                            {% else %}
+                                                <option value="" disabled>Aucune session disponible</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+
+                                    
+                                    <button type="submit" name="action" value="download" class="btn btn-primary">
+                                        <i class="fas fa-download"></i>
+                                        Télécharger les PDF de la session
+                                    </button>
+
+                                    <button type="submit" class="btn btn-success mt-2" name="action" value="email">
+                                        <i class="fas fa-envelope"></i>
+                                        Envoyer les PDF de la session par Email
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <!-- Affichage des messages flash -->
+                        {% for type, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ type == 'error' ? 'danger' : type }} alert-dismissible fade show mt-3" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+		{% if is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ENSEIGNANT') %}
+			<section class="profile-section">
+				<div class="section-header">
+					<h2 class="section-title">
+						<i class="material-icons-round">person</i>
+						Utilisateur
+					</h2>
+				</div>
+				<div class="profile-grid">
+					<div class="profile-card">
+						<div class="profile-detail">
+							<span class="detail-label">Nom</span>
+							<span class="detail-value">{{ utilisateur.nom }}</span>
+						</div>
+						<div class="profile-detail">
+							<span class="detail-label">Prénom</span>
+							<span class="detail-value">{{ utilisateur.prenom }}</span>
+						</div>
+						<div class="profile-detail">
+							<span class="detail-label">Email</span>
+							<span class="detail-value">{{ utilisateur.courriel }}</span>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+	</body>
+</html></div>{% set userId = app.request.get('id') %}<section class="profile-section">
+
+
+<div class="section-header">
+	<h2 class="section-title">
+		<i class="material-icons-round">link</i>
+		Détails des notes
+	</h2>
+</div>
+
+<div class="table-container">
+	<table class="modern-table">
+		<thead>
+			<tr>
+				<th>Institution</th>
+				<th>Session</th>
+				<th>Module</th>
+				<th>Commentaire</th>
+				<th>Note</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% set hasUserModules = false %}
+			{% for item in utilisateurInstitutionSessionModules %}
+				{% if item.Utilisateur.id == userId %}
+					{% set hasUserModules = true %}
+					<tr>
+						<td>{{ item.SessionModule.Institution.nom }}</td>
+						<td>{{ item.SessionModule.Session.nom }}</td>
+						<td>{{ item.SessionModule.Module.nom }}</td>
+						<td class="comment-cell">
+							{% if item.CommentaireModule %}
+								{{ item.CommentaireModule }}
+							{% else %}
+								<span class="no-comment">Aucun commentaire</span>
+							{% endif %}
+						</td>
+						<td class="note-cell">
+							{% if item.NoteModule is not null %}
+								{{ item.NoteModule }}/20
+							{% else %}
+								<span class="no-note">Non noté</span>
+							{% endif %}
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+
+			{% if not hasUserModules %}
+				<tr>
+					<td colspan="{% if is_granted('ROLE_ADMIN') %}6{% else %}5{% endif %}" class="no-data">
+						<i class="material-icons-round">info</i>
+						Vous n'êtes associé à aucun module actuellement
+					</td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div></section><main class="content-container">
+<div class="screenPdf">
+
+
+	{% set userId = app.request.get('id') %}
+
+	{# Graphique des notes #}
+	{% set chartLabels = [] %}
+	{% set chartNotes = [] %}
+
+	{% for item in utilisateurInstitutionSessionModules %}
+		{% if item.Utilisateur.id == userId and item.NoteModule is not null %}
+			{% set chartLabels = chartLabels|merge([item.SessionModule.Module.nom]) %}
+			{% set chartNotes = chartNotes|merge([item.NoteModule]) %}
+		{% endif %}
+	{% endfor %}
+
+	{% if chartNotes|length > 0 %}
+		<section class="chart-section">
+			<div class="section-header">
+				<h3 class="subsection-title">
+					<i class="material-icons-round">bar_chart</i>
+					Notes par module</h3>
+
+			</div>
+			<div class="chart-container" style="max-width: 800px; margin: auto;">
+				<canvas id="notesChart"></canvas>
+			</div>
+
+			 <script>
+			                        // Initialisation du graphique
+			                        const ctx = document.getElementById('notesChart').getContext('2d');
+			                        const currentDate = new Date().toLocaleDateString('fr-FR');
+			
+			                        const chart = new Chart(ctx, {
+			                            type: 'bar',
+			                            data: {
+			                                labels: {{ chartLabels|json_encode|raw }},
+			                                datasets: [{
+			                                    label: 'Note sur 20',
+			                                    data: {{ chartNotes|json_encode|raw }},
+			                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+			                                    borderColor: 'rgba(54, 162, 235, 1)',
+			                                    borderWidth: 1
+			                                }]
+			                            },
+			                            options: {
+			                                responsive: true,
+			                                plugins: {
+			                                    title: {
+			                                        display: true,
+			                                        text: `Relevées de notes du  (${currentDate})`,
+			                                        font: {
+			                                            size: 16,
+			                                            weight: 'bold'
+			                                        }
+			                                    }
+			                                }
+			                            }
+			                        });
+			
+			                    </script>
+		</section>
+	{% endif %}
+</div></main></body></html>

@@ -1,0 +1,123 @@
+-- Table structure for table `etudiant`
+
+DROP TABLE IF EXISTS `etudiant`;
+CREATE TABLE IF NOT EXISTS `etudiant` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_naissance` date NOT NULL,
+  `commentaire` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table structure for table `institution`
+
+DROP TABLE IF EXISTS `institution`;
+CREATE TABLE IF NOT EXISTS `institution` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
+  `adresse` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
+  `telephone` bigint NOT NULL,
+  `courriel` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nom` (`nom`),
+  KEY `telephone` (`telephone`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table `institution`
+INSERT INTO `institution` (`id`, `nom`, `adresse`, `telephone`, `courriel`) VALUES
+(1, 'Centre de Formation Professionnelle de Paris', '10 Rue des ?coles, 75005 Paris, France', 57243547, 'contact@cfpparis.fr'),
+(2, 'Institut Sup?rieur de Formation de Lyon', '25 Avenue Jean Jaur?s, 69007 Lyon, France', 46157329, 'info@isflyon.fr'),
+(3, 'Acad?mie de Formation de Bordeaux', '14 Rue Sainte-Catherine, 33000 Bordeaux, France', 49765823, 'contact@afbdx.fr'),
+(4, 'Centre de Formation en Informatique de Toulouse', '32 Boulevard de Strasbourg, 31000 Toulouse, France', 49785625, 'info@cfitoulouse.fr'),
+(5, '?cole de Formation Continue de Marseille', '18 Rue Paradis, 13001 Marseille, France', 49765821, 'contact@efcmarseille.fr'),
+(6, 'Acad?mie des Arts Num?riques', '45 Rue de la R?publique, 13002 Marseille, France', 47582536, 'contact@artnumerique.fr'),
+(7, 'Centre Europ?en de Formation Linguistique', '22 Avenue Victor Hugo, 75016 Paris, France', 47586914, 'info@ceflparis.fr'),
+(8, 'Institut de Formation en Gestion et Administration', '12 Rue Nationale, 59000 Lille, France', 36251458, 'contact@ifgalille.fr'),
+(9, '?cole Sup?rieure des M?tiers de la Sant?', '19 Boulevard Chave, 13005 Marseille, France', 54659887, 'info@esms-marseille.fr'),
+(10, 'Centre de Formation en Design et Cr?ation', '34 Rue Montmartre, 75001 Paris, France', 21326554, 'contact@cfdesignparis.fr');
+
+-- Table structure for table `institution_session`
+
+DROP TABLE IF EXISTS `institution_session`;
+CREATE TABLE IF NOT EXISTS `institution_session` (
+  `id` int NOT NULL,
+  `session_nom` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
+  `session_id` int NOT NULL,
+  `institution_id` int NOT NULL,
+  `institution_nom` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
+  KEY `session.id` (`session_id`),
+  KEY `institution.id` (`institution_id`),
+  KEY `institution.nom` (`institution_nom`) USING BTREE,
+  KEY `session.nom` (`session_nom`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table `institution_session`
+INSERT INTO `institution_session` (`id`, `session_nom`, `session_id`, `institution_id`, `institution_nom`) VALUES
+(1, '1', 1, 1, 'Centre de Formation Professionnelle de Paris'),
+(2, '2', 2, 2, 'Institut Sup?rieur de Formation de Lyon'),
+(3, '3', 3, 3, 'Acad?mie de Formation de Bordeaux'),
+(4, '4', 4, 4, 'Centre de Formation en Informatique de Toulouse'),
+(5, '5', 5, 2, 'Institut Sup?rieur de Formation de Lyon'),
+(6, '1', 1, 2, 'Institut Sup?rieur de Formation de Lyon');
+
+-- Table structure for table `messenger_messages`
+
+DROP TABLE IF EXISTS `messenger_messages`;
+CREATE TABLE IF NOT EXISTS `messenger_messages` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
+  KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
+  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table structure for table `module`
+
+DROP TABLE IF EXISTS `module`;
+CREATE TABLE IF NOT EXISTS `module` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_C2426282FE28053` (`id`),
+  KEY `nom` (`nom`,`description`),
+  KEY `nom_2` (`nom`),
+  KEY `description_idx` (`description`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table `module`
+INSERT INTO `module` (`id`, `nom`, `description`) VALUES
+(1, 1, 'Variables et Types de Données', 'Introduction aux variables, types de données et opérations de base en programmation.'),
+(2, 1, 'Structures de Contrôle', 'Apprentissage des structures de contrôle telles que les boucles et les conditions.'),
+(3, 1, 'Fonctions et Procédures', 'Création et utilisation de fonctions et de procédures en programmation.'),
+(4, 2, 'HTML & CSS', 'Bases de la création de sites web avec HTML et CSS.'),
+(5, 2, 'JavaScript', 'Introduction à JavaScript pour le développement côté client.'),
+(6, 2, 'Introduction à Node.js', 'Présentation du développement back-end avec Node.js.'),
+(7, 3, 'Principes de l\'IA', 'Introduction aux concepts fondamentaux de l\'intelligence artificielle.'),
+(8, 3, 'Apprentissage Automatique', 'Apprentissage des bases du machine learning et des algorithmes associés.'),
+(9, 3, 'Réseaux Neurones', 'Étude des réseaux de neurones et leur application dans l\'IA.'),
+(10, 4, 'Introduction à la Cybersécurité', 'Bases de la sécurité informatique et des cybermenaces.'),
+(11, 4, 'Cryptographie de Base', 'Concepts fondamentaux de la cryptographie pour la sécurisation des données.'),
+(12, 4, 'Sécurisation des Réseaux', 'Techniques et outils pour sécuriser les réseaux informatiques.'),
+(13, 5, 'Manipulation des Données', 'Techniques de manipulation des données avec Python.'),
+(14, 5, 'Visualisation des Données', 'Outils et techniques pour la visualisation des données.'),
+(15, 5, 'Introduction à SQL', 'Bases de SQL pour l\'interrogation et la gestion de bases de données.'),
+(16, 6, 'Architecture Réseau', 'Comprendre l\'architecture des réseaux informatiques.'),
+(17, 6, 'Protocoles Réseau', 'Étude des principaux protocoles utilisés dans les réseaux.'),
+(18, 6, 'Configuration de Routeurs et Switches', 'Apprentissage des techniques de configuration des routeurs et switches.'),
+(19, 7, 'Introduction à Android', 'Développement d\'applications mobiles pour Android.'),
+(20, 7, 'Introduction à iOS', 'Développement d\'applications mobiles pour iOS avec Swift.'),
+(21, 7, 'Optimisation des Applications Mobiles', 'Techniques d\'optimisation pour des performances maximales.'),
+(22, 8, 'Sécurité des Réseaux Locaux', 'Protection des réseaux locaux contre les menaces internes et externes.'),
+(23, 8, 'Firewall et IDS/IPS', 'Utilisation des firewalls et systèmes de détection d\'intrusion pour la sécurité.'),
+(24, 8, 'Sécurisation des Réseaux sans Fil', 'Techniques de sécurisation des réseaux Wi-Fi.'),
+(25, 9, 'HTML5 & CSS3 Avancé', 'Techniques avancées de développement front-end avec HTML5 et CSS3.'),
+(26, 9, 'Frameworks JavaScript', 'Utilisation des frameworks JavaScript comme React et Angular.'),
+(27, 9, 'API RESTful', 'Création et consommation d\'API RESTful.');

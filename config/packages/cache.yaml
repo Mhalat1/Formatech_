@@ -1,0 +1,19 @@
+framework:
+    cache:
+        # Configuration de base
+        prefix_seed: formatech_symfony  # Remplacez par un identifiant unique de votre application
+        
+        # Configuration Redis (recommandé pour la production)
+        # Décommentez si vous utilisez Redis
+        #app: cache.adapter.redis
+        #default_redis_provider: '%env(REDIS_DSN)%'
+        
+        # Pools spécifiques pour Doctrine
+        pools:
+            doctrine.system_cache_pool:
+                adapter: cache.adapter.filesystem  # Utilise filesystem par défaut
+                default_lifetime: 3600  # 1 heure
+                
+            doctrine.result_cache_pool:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 0  # Pas d'expiration

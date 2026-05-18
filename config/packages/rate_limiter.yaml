@@ -1,0 +1,16 @@
+framework:
+    rate_limiter:
+        pdf_generation_short:
+            policy: 'fixed_window'
+            limit: 1
+            interval: '1 minute'
+            
+        pdf_generation_medium:
+            policy: 'fixed_window'
+            limit: 1
+            interval: '1 hour'
+            
+        pdf_generation_long:
+            policy: 'fixed_window'
+            limit: 1
+            interval: '1 minute'

@@ -1,0 +1,77 @@
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+
+   
+
+
+
+
+    <header class="dashboard-header">
+        <div class="header-content">
+
+            <a href="{{ path('app_home') }}" class="nav-home-btn">
+            <i class="fas fa-home"></i>
+            </a>
+            <div class="brand-section">
+
+                <h1 class="app-title">FormaTech</h1>
+                <div class="user-status">
+                    {% if app.user %}
+                    <span class="welcome-msg">Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong></span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="{{ path('app_logout') }}" class="nav-button logout">
+                    <i class="material-icons-round">logout</i>
+                    Déconnexion
+                </a>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Navigation Cards -->
+    <div class="nav-cards">
+        <a href="/infoinstitution" class="nav-card">
+            <div class="card-icon">
+                <i class="material-icons-round">business</i>
+            </div>
+            <h3>Utilisateur</h3>
+            <p>Voir et gérer toutes les institutions</p>
+        </a>
+        
+        <a href="/infosessionmodule" class="nav-card">
+            <div class="card-icon">
+                <i class="material-icons-round">event_note</i>
+            </div>
+            <h3>Modules</h3>
+            <p>Gérer le calendrier et les formations</p>
+        </a>
+        
+        <a href="/calendrier/{{ app.user.id }}" class="nav-card">
+            <div class="card-icon">
+                <i class="material-icons-round">event_note</i>
+            </div>
+            <h3>Emploi du temps</h3>
+            <p>Gérer le calendrier et les formations</p>
+        </a>
+    </div>
+
+    <!-- Notifications -->
+    {% for message in app.flashes('success') %}
+    <div class="alert success">
+        <i class="material-icons-round">check_circle</i>
+        <div class="alert-content">{{ message }}</div>
+    </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+    <div class="alert error">
+        <i class="material-icons-round">error</i>
+        <div class="alert-content">{{ message }}</div>
+    </div>
+    {% endfor %}
+

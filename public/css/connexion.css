@@ -1,0 +1,140 @@
+/* public/css/styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6; /* Couleur de fond similaire à bg-gray-100 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff; /* Couleur de fond blanche */
+    padding: 4rem;
+    border-radius: 0.5rem; /* Arrondi des coins */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre similaire à shadow-lg */
+    max-width: 45rem; /* Largeur maximale similaire à max-w-md */
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+h1 {
+    font-size: 1.5rem; /* Taille de police similaire à text-2xl */
+    font-weight: 600; /* Poids de police similaire à font-semibold */
+    color: #003770; /* Couleur de texte bleue similaire à text-blue-600 */
+    text-align: center;
+    margin-bottom: 1.5rem; /* Marge en bas similaire à mb-6 */
+}
+
+.error-message {
+    background-color: #fee2e2; /* Couleur de fond rouge clair similaire à bg-red-100 */
+    color: #dc2626; /* Couleur de texte rouge similaire à text-red-700 */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.success-message {
+    color: #16a34a; /* Couleur de texte verte similaire à text-green-600 */
+    margin-bottom: 0.75rem;
+}
+
+.success-message a {
+    color: #003770; /* Couleur de texte bleue similaire à text-blue-600 */
+    text-decoration: none;
+}
+
+.success-message a:hover {
+    color: #003770; /* Couleur de texte bleue foncée au survol */
+}
+
+label {
+    display: block;
+    font-size: 1.5rem; /* Taille de police similaire à text-sm */
+    font-weight: 600; /* Poids de police similaire à font-semibold */
+    color: #003770; /* Couleur de texte grise similaire à text-gray-700 */
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    padding: 0.5rem 1rem; /* Padding similaire à px-4 py-2 */
+    border: 1px solid #003770; /* Bordure grise similaire à border */
+    border-radius: 0.5rem; /* Arrondi des coins */
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #60a5fa; /* Bordure bleue au focus */
+    box-shadow: 0 0 0 2px #003770(96, 165, 250, 0.5); /* Effet de focus similaire à focus:ring-2 */
+}
+
+button[type="submit"] {
+    margin-top: 4rem;
+    width: 95%;
+    background-color: #003770; /* Couleur de fond bleue similaire à bg-blue-600 */
+    color: #ffffff; /* Couleur de texte blanche */
+    padding: 0.5rem 1rem; /* Padding similaire à py-2 */
+    border: none;
+    border-radius: 0.5rem; /* Arrondi des coins */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 2rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #003770; /* Couleur de fond bleue foncée au survol */
+    padding: 1rem 1rem;
+}
+
+button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5); /* Effet de focus similaire à focus:ring-2 */
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 1rem;
+    color: #4b5563; /* Couleur de texte grise similaire à text-gray-600 */
+}
+
+.signup-link a {
+    color: #2563eb; /* Couleur de texte bleue similaire à text-blue-600 */
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    color: #1e40af; /* Couleur de texte bleue foncée au survol */
+}
+
+@media (max-width: 768px) {
+
+    label {
+        display: block;
+        font-size: 1rem; /* Taille de police similaire à text-sm */
+        font-weight: 600; /* Poids de police similaire à font-semibold */
+        color: #003770; /* Couleur de texte grise similaire à text-gray-700 */
+        margin-bottom: 0.5rem;
+    }
+
+    .container {
+        font-size: 1rem;
+        max-width: 20rem
+    }
+    button[type="submit"] {
+        margin-top: 1rem;
+        width: 100%;
+        background-color: #003770; /* Couleur de fond bleue similaire à bg-blue-600 */
+        color: #ffffff; /* Couleur de texte blanche */
+        padding: 0.5rem 1rem; /* Padding similaire à py-2 */
+        border: none;
+        border-radius: 0.5rem; /* Arrondi des coins */
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-size: 1rem;
+    }
+}
